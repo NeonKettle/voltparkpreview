@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commercial EV Charging for Venues | Voltpark</title>
+  <meta name="description" content="Install a commercial EV fast charger at your pub, club, or hotel with zero upfront cost. The charger services its own repayment from day one and sends paying customers through your door. Voltpark — Australia-wide." />
+
+  <!-- Brand fonts: Outfit (display) · DM Sans (body) · DM Mono (data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans:    ['DM Sans',  'sans-serif'],
+            display: ['Outfit',   'sans-serif'],
+            mono:    ['DM Mono',  'monospace'],
+          },
+          colors: {
+            navy:    '#0A0F1A',
+            volt:    '#00DC82',
+            muted:   '#6B7280',
+            cool:    '#F8F9FA',
+            divider: '#F0F0EC',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Reset & base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #FFFFFF; color: #0A0F1A; }
+
+    /* ── Scroll reveal ─────────────────────────────────────── */
+    .rv  { opacity: 0; transform: translateY(18px);
+           transition: opacity .55s ease, transform .55s ease; }
+    .rv.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .07s; }
+    .d2 { transition-delay: .14s; }
+    .d3 { transition-delay: .21s; }
+    .d4 { transition-delay: .28s; }
+
+
+    /* ── Nav ───────────────────────────────────────────────── */
+    #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+           background: #FFFFFF; border-bottom: 1px solid transparent;
+           transition: border-color .2s ease; }
+    #nav.sc { border-color: #F0F0EC; }
+
+    /* ── Nav link underline ────────────────────────────────── */
+    .nav-a { position: relative; color: #6B7280; font-size: .875rem;
+              font-weight: 500; text-decoration: none;
+              transition: color .18s; }
+    .nav-a:hover { color: #0A0F1A; }
+    .nav-a::after { content: ''; position: absolute; bottom: -2px;
+                    left: 0; width: 0; height: 1px; background: #0A0F1A;
+                    transition: width .2s ease; }
+    .nav-a:hover::after { width: 100%; }
+
+    /* ── Buttons ───────────────────────────────────────────── */
+    .btn-n  { display: inline-flex; align-items: center; gap: .375rem;
+              background: #0A0F1A; color: #FFFFFF; border-radius: 9999px;
+              padding: .625rem 1.375rem; font-family: 'DM Sans',sans-serif;
+              font-weight: 600; font-size: .875rem; text-decoration: none;
+              transition: background .18s; border: 1px solid transparent; }
+    .btn-n:hover { background: #1d2a42; }
+    .btn-o  { display: inline-flex; align-items: center; gap: .375rem;
+              background: transparent; color: #0A0F1A; border-radius: 9999px;
+              padding: .625rem 1.375rem; font-family: 'DM Sans',sans-serif;
+              font-weight: 600; font-size: .875rem; text-decoration: none;
+              border: 1px solid #F0F0EC; transition: border-color .18s; }
+    .btn-o:hover { border-color: #0A0F1A; }
+    /* CTA green button (closing section) */
+    .btn-g  { display: inline-flex; align-items: center; gap: .375rem;
+              background: #00DC82; color: #0A0F1A; border-radius: 9999px;
+              padding: .625rem 1.375rem; font-family: 'DM Sans',sans-serif;
+              font-weight: 600; font-size: .875rem; text-decoration: none;
+              transition: background .18s; border: 1px solid transparent; }
+    .btn-g:hover { background: #00c072; }
+    /* Ghost button (dark bg) */
+    .btn-ghost { display: inline-flex; align-items: center; gap: .375rem;
+                 background: transparent; color: #FFFFFF; border-radius: 9999px;
+                 padding: .625rem 1.375rem; font-family: 'DM Sans',sans-serif;
+                 font-weight: 600; font-size: .875rem; text-decoration: none;
+                 border: 1px solid rgba(255,255,255,.22);
+                 transition: border-color .18s; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.5); }
+
+    /* ── Eyebrow / label ───────────────────────────────────── */
+    .ey { font-family: 'DM Sans', sans-serif; font-weight: 600;
+          font-size: .6875rem; letter-spacing: .1em;
+          text-transform: uppercase; color: #6B7280; }
+
+    /* ── Pull-quote accent ─────────────────────────────────── */
+    .pq { border-left: 3px solid #00DC82; padding-left: 1.125rem; }
+
+    /* ── Benefit card green left-border ────────────────────── */
+    .bc { border-left: 3px solid #00DC82; padding-left: 1.125rem; }
+
+    /* ── Green tint badge ──────────────────────────────────── */
+    .badge { background: rgba(0,220,130,.12); color: #00DC82;
+             font-family: 'DM Mono', monospace; font-size: .75rem;
+             font-weight: 500; padding: .2rem .6rem; border-radius: 4px; }
+
+    /* ── FAQ accordion ─────────────────────────────────────── */
+    details { border-top: 1px solid #F0F0EC; }
+    details:last-of-type { border-bottom: 1px solid #F0F0EC; }
+    details summary { list-style: none; cursor: pointer;
+                      display: flex; align-items: center;
+                      justify-content: space-between;
+                      padding: 1.2rem 0; gap: 1rem; }
+    details summary::-webkit-details-marker { display: none; }
+    .faq-icon { width: 18px; height: 18px; flex-shrink: 0;
+                transition: transform .22s ease; color: #6B7280; }
+    details[open] .faq-icon { transform: rotate(45deg); }
+    .faq-body { padding-bottom: 1.2rem; }
+
+    /* ── Spec table ────────────────────────────────────────── */
+    .spec td { padding: .55rem .75rem;
+               border-bottom: 1px solid #F0F0EC; vertical-align: top; }
+    .spec tr:last-child td { border-bottom: none; }
+
+    /* ── Slider ────────────────────────────────────────────── */
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 2px; border-radius: 2px;
+      outline: none; cursor: pointer; background: #F0F0EC;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px;
+      border-radius: 50%; background: #0A0F1A;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 0 0 1.5px #0A0F1A;
+      cursor: pointer; transition: transform .15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #0A0F1A; border: 2.5px solid #FFFFFF;
+      box-shadow: 0 0 0 1.5px #0A0F1A; cursor: pointer;
+    }
+
+    /* ── Stat dividers ─────────────────────────────────────── */
+    .stat-block + .stat-block { border-left: 1px solid #F0F0EC; padding-left: 1.5rem; }
+  </style>
+</head>
+
+<body class="font-sans antialiased">
+
+  <!-- ═══════════════════════════════════════ NAVIGATION -->
+  <nav id="nav" class="py-4">
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+
+      <a href="#" class="flex items-center">
+        <img src="VoltPark%20Logo/VOLTPARK_LOGO1PNG.png" alt="Voltpark" style="height:56px;width:auto;display:block;">
+      </a>
+
+      <div class="hidden md:flex items-center gap-7">
+        <a href="#how-it-works" class="nav-a">How It Works</a>
+        <a href="#the-numbers"  class="nav-a">The Numbers</a>
+        <a href="#the-charger"  class="nav-a">The Charger</a>
+        <a href="#faq"          class="nav-a">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="#cta" class="nav-a hidden md:block">Book a Call</a>
+        <a href="#cta" class="btn-n">Get a Proposal</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════ HERO -->
+  <section class="min-h-[100dvh] flex items-center pt-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- Copy -->
+      <div>
+        <p class="rv ey mb-5">EV Charging for Australian Hospitality Venues</p>
+
+        <h1 class="rv d1 font-display font-extrabold text-navy leading-[1.05] mb-5"
+            style="font-size:clamp(2.25rem,5vw,3.5rem); letter-spacing:-0.04em;">
+          EV drivers park outside.<br/>
+          They spend inside.<br/>
+          <span style="color:#00DC82;">You keep the revenue.</span>
+        </h1>
+
+        <p class="rv d2 text-muted text-base max-w-[52ch] mb-8" style="line-height:1.65;">
+          Install a commercial EV fast charger at your venue with zero upfront cost. The charger services its own repayment from day one — and sends paying customers through your door while it does it.
+        </p>
+
+        <div class="rv d3 flex flex-col sm:flex-row gap-3 mb-10">
+          <a href="#cta"          class="btn-n">Get a Proposal</a>
+          <a href="#how-it-works" class="btn-o">See How It Works</a>
+        </div>
+
+        <!-- Stats row -->
+        <div class="rv d4 flex gap-0 pt-8 border-t border-divider">
+
+          <div class="stat-block pr-6">
+            <div class="font-mono font-medium text-volt" style="font-size:1.625rem;letter-spacing:-0.03em;">$1,118</div>
+            <div class="text-xs font-semibold text-navy mt-1 mb-0.5">Est. net per month</div>
+            <div class="text-xs text-muted leading-snug">At 6 sessions/day<br/>conservative model</div>
+          </div>
+
+          <div class="stat-block px-6">
+            <div class="font-mono font-medium text-navy" style="font-size:1.625rem;letter-spacing:-0.03em;">$0</div>
+            <div class="text-xs font-semibold text-navy mt-1 mb-0.5">Upfront cost</div>
+            <div class="text-xs text-muted leading-snug">Finance arranged —<br/>no capital required</div>
+          </div>
+
+          <div class="stat-block pl-6">
+            <div class="font-mono font-medium text-navy" style="font-size:1.625rem;letter-spacing:-0.03em;">3</div>
+            <div class="text-xs font-semibold text-navy mt-1 mb-0.5">Vehicles at once</div>
+            <div class="text-xs text-muted leading-snug">Thunder 120C charges<br/>up to 3 EVs simultaneously</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Hero image -->
+      <div class="rv d1">
+        <div class="rounded-2xl overflow-hidden bg-cool border border-divider" style="aspect-ratio:1/1;">
+          <img src="Site%20Images/Heroimage.jpeg"
+               alt="EVs charging at a hospitality venue with Grasen chargers"
+               class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════ THE OPPORTUNITY -->
+  <section class="py-24 bg-cool">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <div>
+          <p class="rv ey mb-5">The Opportunity</p>
+          <h2 class="rv d1 font-display font-extrabold text-navy mb-6"
+              style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.1;">
+            1 in 8 new cars sold<br/>in Australia is now electric.
+          </h2>
+          <div class="rv d2 space-y-3 pt-6 border-t border-divider">
+            <div class="flex items-baseline gap-3">
+              <span class="font-mono font-medium text-volt shrink-0" style="font-size:1.5rem;letter-spacing:-0.03em;">410,000</span>
+              <span class="text-sm text-muted">EVs registered in Australia today</span>
+            </div>
+            <div class="flex items-baseline gap-3">
+              <span class="font-mono font-medium text-navy shrink-0" style="font-size:1.5rem;letter-spacing:-0.03em;">1M+</span>
+              <span class="text-sm text-muted">forecast before 2028</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:pt-12">
+          <p class="rv text-muted text-sm mb-5" style="line-height:1.7;">
+            EV drivers plan their stops around charging infrastructure. A typical session runs 30 to 60 minutes, long enough for a meal, a drink, or both.
+          </p>
+          <p class="rv d1 text-muted text-sm mb-8" style="line-height:1.7;">
+            That revenue flows to venues with chargers. That venue should be yours.
+          </p>
+          <blockquote class="rv d2 pq">
+            <p class="font-display font-bold text-navy italic"
+               style="font-size:1.0625rem;letter-spacing:-0.02em;line-height:1.5;">
+              "A 30-minute charge session is a round of drinks. A 60-minute session is a meal and drinks. The charger doesn't just pay for itself — it fills seats."
+            </p>
+          </blockquote>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════ HOW IT WORKS -->
+  <section id="how-it-works" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="mb-12">
+        <p class="rv ey mb-4">How It Works</p>
+        <h2 class="rv d1 font-display font-extrabold text-navy mb-2"
+            style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.1;">
+          Install once. Earn every day.
+        </h2>
+        <p class="rv d2 font-display font-bold text-muted"
+           style="font-size:clamp(1.1rem,2vw,1.375rem);letter-spacing:-0.02em;">
+          We handle everything. You collect the revenue.
+        </p>
+      </div>
+
+      <!-- Step cards (navy) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
+
+        <div class="rv bg-navy rounded-2xl p-8">
+          <div class="font-mono font-medium text-volt text-xs mb-6" style="letter-spacing:.06em;">01</div>
+          <h3 class="font-display font-bold text-white mb-4"
+              style="font-size:1.0625rem;letter-spacing:-0.02em;line-height:1.3;">
+            We assess and install
+          </h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6);line-height:1.7;">
+            Voltpark manages the entire process end to end. Site assessment, council requirements, certified electrician installation, compliance, and commissioning. From signed agreement to live charger: typically 4 to 8 weeks.
+          </p>
+        </div>
+
+        <div class="rv d1 bg-navy rounded-2xl p-8">
+          <div class="font-mono font-medium text-volt text-xs mb-6" style="letter-spacing:.06em;">02</div>
+          <h3 class="font-display font-bold text-white mb-4"
+              style="font-size:1.0625rem;letter-spacing:-0.02em;line-height:1.3;">
+            Drivers charge. You get paid.
+          </h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6);line-height:1.7;">
+            Up to three EVs charging simultaneously. Drivers pay per kWh via tap-and-go or app. Every dollar goes directly to you — no revenue share, no commission.
+          </p>
+        </div>
+
+        <div class="rv d2 bg-navy rounded-2xl p-8">
+          <div class="font-mono font-medium text-volt text-xs mb-6" style="letter-spacing:.06em;">03</div>
+          <h3 class="font-display font-bold text-white mb-4"
+              style="font-size:1.0625rem;letter-spacing:-0.02em;line-height:1.3;">
+            The charger covers itself.
+          </h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6);line-height:1.7;">
+            The equipment is financed over 48 months through a commercial chattel mortgage. At 6 sessions a day on a single port, the charger generates enough to cover its own repayment and return over $1,100 a month to your venue. The other two ports are pure upside.
+          </p>
+        </div>
+
+      </div>
+
+      <p class="rv text-sm text-muted max-w-[64ch]" style="line-height:1.7;">
+        Ongoing OCPP platform management, remote monitoring, and fault alerts are handled by Voltpark. Most issues are diagnosed and resolved remotely — without a site visit, and without your team being involved.
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════ BENEFITS -->
+  <section class="py-24 bg-cool">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="mb-12">
+        <p class="rv ey mb-4">Your Venue Gets</p>
+        <h2 class="rv d1 font-display font-extrabold text-navy"
+            style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.1;">
+          Four things that happen when you<br/>install a Voltpark charger.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="rv bg-white rounded-2xl p-8 border border-divider">
+          <div class="bc">
+            <div class="font-mono text-xs text-muted mb-3" style="letter-spacing:.06em;">01</div>
+            <h3 class="font-display font-bold text-navy mb-3"
+                style="font-size:1.0rem;letter-spacing:-0.02em;">
+              New customers
+            </h3>
+            <p class="text-sm text-muted" style="line-height:1.7;">
+              EV drivers search for chargers before they leave home. A Voltpark charger puts your venue on PlugShare, ABRP, and Google Maps overnight.
+            </p>
+          </div>
+        </div>
+
+        <div class="rv d1 bg-white rounded-2xl p-8 border border-divider">
+          <div class="bc">
+            <div class="font-mono text-xs text-muted mb-3" style="letter-spacing:.06em;">02</div>
+            <h3 class="font-display font-bold text-navy mb-3"
+                style="font-size:1.0rem;letter-spacing:-0.02em;">
+              Longer stays
+            </h3>
+            <p class="text-sm text-muted" style="line-height:1.7;">
+              A fast charge runs 25 to 45 minutes. Wait time is revenue. Right now you're giving it to whoever has a charger nearby.
+            </p>
+          </div>
+        </div>
+
+        <div class="rv d2 bg-white rounded-2xl p-8 border border-divider">
+          <div class="bc">
+            <div class="font-mono text-xs text-muted mb-3" style="letter-spacing:.06em;">03</div>
+            <h3 class="font-display font-bold text-navy mb-3"
+                style="font-size:1.0rem;letter-spacing:-0.02em;">
+              A new revenue stream
+            </h3>
+            <p class="text-sm text-muted" style="line-height:1.7;">
+              At 6 sessions a day on a single port, the charger nets your venue around
+              <span class="font-mono font-medium text-volt">$1,118/month</span> —
+              <span class="font-mono font-medium text-volt">$13,416/year</span> from a bay that was earning nothing.
+            </p>
+          </div>
+        </div>
+
+        <div class="rv d3 bg-white rounded-2xl p-8 border border-divider">
+          <div class="bc">
+            <div class="font-mono text-xs text-muted mb-3" style="letter-spacing:.06em;">04</div>
+            <h3 class="font-display font-bold text-navy mb-3"
+                style="font-size:1.0rem;letter-spacing:-0.02em;">
+              Zero burden on your team
+            </h3>
+            <p class="text-sm text-muted" style="line-height:1.7;">
+              Voltpark handles everything and monitors the charger remotely 24/7. If something goes wrong, we fix it. Your team never thinks about it.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════ REVENUE CALCULATOR -->
+  <section id="the-numbers" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="mb-12">
+        <p class="rv ey mb-4">The Numbers</p>
+        <h2 class="rv d1 font-display font-extrabold text-navy mb-2"
+            style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.1;">
+          Run your own numbers.
+        </h2>
+        <p class="rv d2 font-display font-bold text-muted mb-3"
+           style="font-size:clamp(1.1rem,2vw,1.375rem);letter-spacing:-0.02em;">
+          See what a charger is worth to your venue.
+        </p>
+        <p class="rv d3 text-sm text-muted max-w-[58ch]" style="line-height:1.7;">
+          Adjust the inputs to match your venue. The model uses conservative assumptions — one port in use, real-world performance at busy venues typically runs higher.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+
+        <!-- ── Inputs ── -->
+        <div class="rv space-y-10">
+
+          <!-- Sessions -->
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <label for="inp-sessions" class="ey">Sessions per day</label>
+              <span id="val-sessions" class="font-mono font-medium text-navy text-sm">6</span>
+            </div>
+            <input type="range" id="inp-sessions" min="2" max="12" step="1" value="6"
+                   oninput="updateCalc()" />
+            <div class="flex justify-between mt-1.5">
+              <span class="font-mono text-xs text-muted">2</span>
+              <span class="font-mono text-xs text-muted">12</span>
+            </div>
+            <p class="text-xs text-muted mt-3" style="line-height:1.65;">
+              How many charging sessions does your car park realistically support each day?<br/>
+              <em>A venue with 20+ bays in a busy location typically sees 5–8 sessions per day.</em>
+            </p>
+          </div>
+
+          <!-- Charge rate -->
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <label for="inp-rate" class="ey">Charge rate ($/kWh)</label>
+              <span id="val-rate" class="font-mono font-medium text-navy text-sm">$0.59</span>
+            </div>
+            <input type="range" id="inp-rate" min="0.40" max="0.85" step="0.01" value="0.59"
+                   oninput="updateCalc()" />
+            <div class="flex justify-between mt-1.5">
+              <span class="font-mono text-xs text-muted">$0.40</span>
+              <span class="font-mono text-xs text-muted">$0.85</span>
+            </div>
+            <p class="text-xs text-muted mt-3" style="line-height:1.65;">
+              What you charge EV drivers per kWh.<br/>
+              <em>Market range is $0.40–$0.85/kWh. $0.59 is the midpoint.</em>
+            </p>
+          </div>
+
+          <!-- Electricity cost -->
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <label for="inp-elec" class="ey">Electricity cost ($/kWh)</label>
+              <span id="val-elec" class="font-mono font-medium text-navy text-sm">$0.22</span>
+            </div>
+            <input type="range" id="inp-elec" min="0.18" max="0.30" step="0.01" value="0.22"
+                   oninput="updateCalc()" />
+            <div class="flex justify-between mt-1.5">
+              <span class="font-mono text-xs text-muted">$0.18</span>
+              <span class="font-mono text-xs text-muted">$0.30</span>
+            </div>
+            <p class="text-xs text-muted mt-3" style="line-height:1.65;">
+              Your venue's commercial electricity tariff.<br/>
+              <em>Most Australian commercial venues pay $0.18–$0.28/kWh. Check your latest bill.</em>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ── Output ── -->
+        <div class="rv d1">
+          <div class="bg-cool rounded-2xl border border-divider p-8">
+
+            <!-- Hero net figure -->
+            <div class="mb-7 pb-7 border-b border-divider">
+              <p class="ey mb-3">Monthly net to venue</p>
+              <div id="out-net-big" class="font-mono font-medium text-volt"
+                   style="font-size:3.75rem;letter-spacing:-0.04em;line-height:1;">
+                $1,118
+              </div>
+              <!-- Warning -->
+              <div id="calc-warn" class="hidden mt-3 text-xs text-muted bg-white border border-divider rounded-xl p-3" style="line-height:1.6;">
+                At this utilisation the revenue may not fully cover the repayment. Talk to us about whether this site is the right fit.
+              </div>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="space-y-3 mb-7">
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-muted font-medium">Monthly gross revenue</span>
+                <span id="out-gross" class="font-mono font-medium text-navy text-sm">$2,655</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-muted font-medium">Monthly electricity cost</span>
+                <span id="out-elec" class="font-mono text-muted text-sm">−$990</span>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t border-divider">
+                <span class="text-xs text-muted font-medium">Monthly gross profit</span>
+                <span id="out-profit" class="font-mono font-medium text-navy text-sm">$1,665</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-muted font-medium">Finance repayment (fixed)</span>
+                <span class="font-mono text-muted text-sm">−$447</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-muted font-medium">Platform fee (fixed)</span>
+                <span class="font-mono text-muted text-sm">−$100</span>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t-2 border-navy">
+                <span class="text-xs font-semibold text-navy">Monthly net to venue</span>
+                <span id="out-net-sm" class="font-mono font-medium text-volt text-sm">$1,118</span>
+              </div>
+
+            </div>
+
+            <p class="text-xs text-muted" style="line-height:1.6;">
+              Figures are indicative based on the assumptions above. Actual revenue depends on utilisation, local electricity tariffs, and charge pricing set by the venue. Voltpark does not guarantee income outcomes.
+            </p>
+          </div>
+
+          <!-- CTA below calculator -->
+          <div class="mt-5 flex flex-col sm:flex-row gap-3 items-start">
+            <a href="#cta" class="btn-n text-sm">Get a Proposal Based on Your Venue</a>
+            <a href="#cta" class="nav-a text-sm flex items-center gap-1.5 self-center" style="color:#0A0F1A;">
+              Book a call to talk through the numbers
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <path d="M2 6.5h9M8 3l3 3.5L8 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════ FAQ -->
+  <section id="faq" class="py-24 bg-cool">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+
+        <div>
+          <p class="rv ey mb-4">FAQ</p>
+          <h2 class="rv d1 font-display font-extrabold text-navy mb-2"
+              style="font-size:clamp(1.75rem,3.5vw,2.25rem);letter-spacing:-0.04em;line-height:1.1;">
+            Common questions.
+          </h2>
+          <p class="rv d2 font-display font-bold text-muted"
+             style="font-size:1.25rem;letter-spacing:-0.02em;">
+            You probably have a few.
+          </p>
+        </div>
+
+        <div class="lg:col-span-2 rv d1">
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">What if we don't get enough EV drivers?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              At just 3 sessions per day — half our conservative estimate — the charger still covers its own repayment and generates positive cash flow. Installing a charger puts your venue on every EV mapping app in the country, attracting drivers who wouldn't have otherwise visited.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">Who handles maintenance and breakdowns?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              Voltpark does. The charger is remotely monitored 24/7 through our OCPP management platform. The Thunder 120C supports firmware-over-the-air (FOTA) updates and remote fault diagnosis; most issues are resolved without a site visit. If a hardware issue requires a physical response, we send a certified technician.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">What does the finance look like and who's responsible for it?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              The finance is a commercial chattel mortgage arranged through our broker network. The venue owns the asset from day one. Standard commercial credit checks apply. Approval typically takes 3 to 5 business days.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">Is there a revenue share or ongoing commission to Voltpark?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              No. Voltpark earns its margin on the hardware supply and installation. Once the charger is commissioned, 100% of the charging revenue belongs to the venue. No ongoing commissions, no revenue split, no hidden fees beyond the $100/month OCPP platform management fee.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">How long does installation take?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              From signed agreement to live charger, typically 4 to 8 weeks depending on site complexity and council requirements. Voltpark manages the full process through our certified electrician network.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">What happens at the end of the 48 months?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              You own the charger outright. At that point the repayment obligation ends and you keep 100% of revenue with no ongoing fixed cost beyond the platform fee. At 6 sessions per day that's approximately $1,565/month gross profit.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="font-semibold text-navy text-sm">Which EVs does it work with?</span>
+              <svg class="faq-icon" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </summary>
+            <div class="faq-body text-sm text-muted" style="line-height:1.7;">
+              Every EV currently sold in Australia. The Thunder 120C supports CCS2, CHAdeMO, GB/T, NACS, Type 1 AC, and Type 2 AC, covering BYD, Tesla (with adaptor), Kia, Hyundai, MG, Volvo, Polestar, Mercedes, BMW, and others.
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════ HARDWARE -->
+  <section id="the-charger" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <p class="rv ey mb-4">The Charger</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 items-start">
+        <div>
+          <h2 class="rv d1 font-display font-extrabold text-navy mb-1"
+              style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.05;">
+            Grasen Thunder 120C.
+          </h2>
+          <p class="rv d2 font-display font-bold text-muted mb-6"
+             style="font-size:1.25rem;letter-spacing:-0.02em;">
+            AC/DC 3-in-1 commercial EV charger.
+          </p>
+          <p class="rv d3 text-sm text-muted max-w-[52ch]" style="line-height:1.7;">
+            The Thunder 120C is a commercial-grade AC/DC fast charger designed for destination venues. It handles up to three vehicles simultaneously — two DC fast charge ports and one AC port — in a single compact footprint. One unit. Three revenue streams. One set of installation costs.
+          </p>
+        </div>
+        <div class="rv rounded-2xl overflow-hidden bg-cool border border-divider" style="aspect-ratio:4/3;">
+          <img src="Site%20Images/Productimage.jpeg"
+               alt="Grasen Thunder 120C installed at a venue" class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      <!-- Feature cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-12">
+
+        <div class="rv bg-cool rounded-2xl p-7 border border-divider">
+          <div class="font-mono font-medium text-volt mb-1"
+               style="font-size:2.25rem;letter-spacing:-0.04em;line-height:1;">120kW</div>
+          <div class="font-display font-bold text-navy text-sm mb-3"
+               style="letter-spacing:-0.01em;">DC fast charging</div>
+          <p class="text-xs text-muted" style="line-height:1.7;">
+            Up to 120kW DC output across two ports. Charges a typical EV from 20% to 80% in 30–40 minutes — fast enough to drive a stop, slow enough to drive a spend.
+          </p>
+        </div>
+
+        <div class="rv d1 bg-cool rounded-2xl p-7 border border-divider">
+          <div class="font-mono font-medium text-volt mb-1"
+               style="font-size:2.25rem;letter-spacing:-0.04em;line-height:1;">3</div>
+          <div class="font-display font-bold text-navy text-sm mb-3"
+               style="letter-spacing:-0.01em;">Simultaneous vehicles</div>
+          <p class="text-xs text-muted" style="line-height:1.7;">
+            Two DC fast charge guns plus one 22–44kW AC gun. Three vehicles charging at once. The revenue model is built on one port — ports two and three are pure upside.
+          </p>
+        </div>
+
+        <div class="rv d2 bg-cool rounded-2xl p-7 border border-divider">
+          <div class="font-mono font-medium text-volt mb-1"
+               style="font-size:2.25rem;letter-spacing:-0.04em;line-height:1;">100%</div>
+          <div class="font-display font-bold text-navy text-sm mb-3"
+               style="letter-spacing:-0.01em;">EV compatible</div>
+          <p class="text-xs text-muted" style="line-height:1.7;">
+            CCS2, CHAdeMO, GB/T, NACS, Type 1 AC, Type 2 AC. Every EV sold in Australia works with this unit. No adaptor required for most vehicles.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Spec table -->
+      <div class="rv">
+        <p class="ey mb-5">Full Technical Specifications</p>
+        <div class="rounded-2xl border border-divider overflow-hidden">
+          <table class="spec w-full text-sm">
+            <tbody>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs w-1/3">DC Output</td><td class="font-mono text-muted text-xs">60kW – 120kW (2 × DC guns)</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">AC Output</td><td class="font-mono text-muted text-xs">22kW – 44kW (1 × AC gun)</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">DC Connectors</td><td class="font-mono text-muted text-xs">GB/T · CCS2 · CHAdeMO · NACS</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">AC Connectors</td><td class="font-mono text-muted text-xs">Type 1 · Type 2 · GB/T</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">Simultaneous charge</td><td class="font-mono text-muted text-xs">3 vehicles (2 DC + 1 AC)</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">Display</td><td class="font-mono text-muted text-xs">8-inch LCD touchscreen</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">Connectivity</td><td class="font-mono text-muted text-xs">4G · WiFi · Ethernet</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">Payment</td><td class="font-mono text-muted text-xs">RFID · App · Tap-and-go card</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">Platform</td><td class="font-mono text-muted text-xs">OCPP 1.6J — Voltpark CSMS</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">Remote management</td><td class="font-mono text-muted text-xs">FOTA updates · remote diagnostics · fault alerts</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">Weather rating</td><td class="font-mono text-muted text-xs">IP54 — outdoor rated</td></tr>
+              <tr class="bg-white"><td class="font-semibold text-navy text-xs">Warranty</td><td class="font-mono text-muted text-xs">26 months manufacturer warranty</td></tr>
+              <tr class="bg-cool"><td class="font-semibold text-navy text-xs">Compliance</td><td class="font-mono text-muted text-xs">OCPP 1.6J · AS/NZS IEC 61851</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-muted mt-3" style="line-height:1.6;">
+          The Thunder 120C is imported and distributed by Voltpark's parent import entity under Displayd Pty Ltd's existing import infrastructure. Installation is performed by certified electricians only and complies with Australian electrical safety standards.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════════════════════ WHY VOLTPARK -->
+  <section class="py-24 bg-cool">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <div>
+          <p class="rv ey mb-4">Why Voltpark</p>
+          <h2 class="rv d1 font-display font-extrabold text-navy mb-6"
+              style="font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-0.04em;line-height:1.1;">
+            Local to you.<br/>End to end from day one.
+          </h2>
+          <p class="rv d2 text-sm text-muted max-w-[46ch]" style="line-height:1.7;">
+            Voltpark is an Australian commercial EV charging company. We're not an overseas aggregator passing your install to a subcontractor who's never seen your venue. We work with certified electricians across the country, manage every install directly, and stay involved long after the charger goes live.
+          </p>
+        </div>
+
+        <div class="rv d1">
+
+          <div class="py-7 border-t border-divider flex gap-5">
+            <div class="mt-0.5 shrink-0">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                   style="background:rgba(0,220,130,.12);">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path d="M7.5 1.25L1.5 4.5v4c0 3.5 2.6 6.75 6 7.5 3.4-.75 6-4 6-7.5v-4l-6-3.25z"
+                        stroke="#00DC82" stroke-width="1.25" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-navy mb-2"
+                  style="font-size:1rem;letter-spacing:-0.01em;">Local installation network</h3>
+              <p class="text-sm text-muted" style="line-height:1.7;">Certified electricians nationwide. Site assessments done in person. Response times measured in hours, not days.</p>
+            </div>
+          </div>
+
+          <div class="py-7 border-t border-divider flex gap-5">
+            <div class="mt-0.5 shrink-0">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                   style="background:rgba(0,220,130,.12);">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <rect x="1.5" y="4" width="12" height="8.5" rx="1.5" stroke="#00DC82" stroke-width="1.25"/>
+                  <path d="M4.5 4V3a3 3 0 016 0v1" stroke="#00DC82" stroke-width="1.25" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-navy mb-2"
+                  style="font-size:1rem;letter-spacing:-0.01em;">Finance arranged for you</h3>
+              <p class="text-sm text-muted" style="line-height:1.7;">We work with established commercial finance brokers to structure the chattel mortgage. We handle the paperwork. You review and sign. Typically approved within 3 to 5 business days.</p>
+            </div>
+          </div>
+
+          <div class="py-7 border-t border-b border-divider flex gap-5">
+            <div class="mt-0.5 shrink-0">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                   style="background:rgba(0,220,130,.12);">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <circle cx="7.5" cy="5.5" r="2.5" stroke="#00DC82" stroke-width="1.25"/>
+                  <path d="M2.5 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="#00DC82" stroke-width="1.25" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-navy mb-2"
+                  style="font-size:1rem;letter-spacing:-0.01em;">One point of contact</h3>
+              <p class="text-sm text-muted" style="line-height:1.7;">From first conversation to live charger — and beyond — you deal with Voltpark directly. No hand-offs, no call centres, no ticket systems. A real person who knows your site.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════ CLOSING CTA -->
+  <section id="cta" style="background:#0A0F1A;" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-xl">
+
+        <p class="rv ey mb-5" style="color:rgba(255,255,255,.45);">Get Started</p>
+
+        <h2 class="rv d1 font-display font-extrabold text-white mb-6"
+            style="font-size:clamp(2rem,5vw,3rem);letter-spacing:-0.04em;line-height:1.05;">
+          Your car park is an<br/>untapped asset.<br/>
+          <span style="color:#00DC82;">Let's change that.</span>
+        </h2>
+
+        <p class="rv d2 text-sm mb-4 max-w-[52ch]" style="color:rgba(255,255,255,.6);line-height:1.7;">
+          A 20-minute conversation is all it takes to know if Voltpark is the right fit for your venue. We'll run the numbers specific to your site, answer every question, and if it stacks up — get a proposal in your inbox within 48 hours.
+        </p>
+
+        <p class="rv d3 font-semibold text-white text-sm mb-8">
+          No obligation. No sales pressure. Just the numbers.
+        </p>
+
+        <div class="rv d4 flex flex-col sm:flex-row gap-3">
+          <a href="mailto:hello@voltpark.com.au" class="btn-g">Book a Call</a>
+          <a href="mailto:hello@voltpark.com.au" class="btn-ghost">Get a Proposal</a>
+        </div>
+
+        <p class="rv mt-6 text-xs" style="color:rgba(255,255,255,.35);">
+          Responding to all enquiries within one business day.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════ FOOTER -->
+  <footer style="background:#0A0F1A;border-top:1px solid rgba(255,255,255,.07);">
+    <div class="max-w-6xl mx-auto px-6 pt-12 pb-10">
+
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-10"
+           style="border-bottom:1px solid rgba(255,255,255,.08);">
+
+        <div>
+          <a href="#" class="flex items-center mb-1.5">
+            <img src="VoltPark%20Logo/VOLTPARK_LOGO1PNG.png" alt="Voltpark" style="height:36px;width:auto;display:block;background:#fff;border-radius:6px;padding:6px 10px;box-sizing:content-box;">
+          </a>
+          <p class="text-xs" style="color:rgba(255,255,255,.4);">Commercial EV Charging · Australia-wide</p>
+        </div>
+
+        <nav class="flex flex-wrap gap-x-7 gap-y-3">
+          <a href="#how-it-works" class="text-xs transition-colors"
+             style="color:rgba(255,255,255,.5);"
+             onmouseover="this.style.color='rgba(255,255,255,.9)'"
+             onmouseout="this.style.color='rgba(255,255,255,.5)'">How It Works</a>
+          <a href="#the-numbers" class="text-xs transition-colors"
+             style="color:rgba(255,255,255,.5);"
+             onmouseover="this.style.color='rgba(255,255,255,.9)'"
+             onmouseout="this.style.color='rgba(255,255,255,.5)'">The Numbers</a>
+          <a href="#the-charger" class="text-xs transition-colors"
+             style="color:rgba(255,255,255,.5);"
+             onmouseover="this.style.color='rgba(255,255,255,.9)'"
+             onmouseout="this.style.color='rgba(255,255,255,.5)'">The Charger</a>
+          <a href="#faq" class="text-xs transition-colors"
+             style="color:rgba(255,255,255,.5);"
+             onmouseover="this.style.color='rgba(255,255,255,.9)'"
+             onmouseout="this.style.color='rgba(255,255,255,.5)'">FAQ</a>
+          <a href="#" class="text-xs transition-colors"
+             style="color:rgba(255,255,255,.5);"
+             onmouseover="this.style.color='rgba(255,255,255,.9)'"
+             onmouseout="this.style.color='rgba(255,255,255,.5)'">Privacy Policy</a>
+        </nav>
+
+      </div>
+
+      <div class="pt-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+        <p class="text-xs max-w-[64ch]" style="color:rgba(255,255,255,.3);line-height:1.65;">
+          Voltpark is a trading name of [Parent entity] Pty Ltd. All revenue projections are indicative only and based on modelled assumptions. Finance subject to lender approval and standard commercial credit assessment. Installation subject to site assessment and council requirements. Grasen Thunder 120C imported under Displayd Pty Ltd.
+        </p>
+        <p class="text-xs shrink-0" style="color:rgba(255,255,255,.3);">© 2026 Voltpark. All rights reserved.</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════ JS -->
+  <script>
+    // ── Nav scroll border ────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('sc', window.scrollY > 20);
+    }, { passive: true });
+
+    // ── Scroll reveal ─────────────────────────────────────────
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+    // ── Slider fill ──────────────────────────────────────────
+    function fillSlider(el) {
+      const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+      el.style.background =
+        `linear-gradient(to right, #0A0F1A ${pct}%, #F0F0EC ${pct}%)`;
+    }
+
+    // ── Calculator ───────────────────────────────────────────
+    function updateCalc() {
+      const sessions = parseFloat(document.getElementById('inp-sessions').value);
+      const rate     = parseFloat(document.getElementById('inp-rate').value);
+      const elec     = parseFloat(document.getElementById('inp-elec').value);
+
+      // Formula (per copy brief)
+      const gross  = sessions * 25 * rate * 30;
+      const elecC  = sessions * 25 * elec * 30;
+      const profit = gross - elecC;
+      const net    = profit - 447 - 100;
+
+      // AU number format
+      const au = (n) => Math.round(Math.abs(n)).toLocaleString('en-AU');
+      const sign = (n) => n < 0 ? '−$' : '$';
+
+      // Labels
+      document.getElementById('val-sessions').textContent = sessions;
+      document.getElementById('val-rate').textContent     = '$' + rate.toFixed(2);
+      document.getElementById('val-elec').textContent     = '$' + elec.toFixed(2);
+
+      // Outputs
+      document.getElementById('out-gross').textContent  = '$' + au(gross);
+      document.getElementById('out-elec').textContent   = '−$' + au(elecC);
+      document.getElementById('out-profit').textContent = '$' + au(profit);
+
+      const netText = sign(net) + au(net);
+      document.getElementById('out-net-big').textContent = netText;
+      document.getElementById('out-net-sm').textContent  = netText;
+
+      const col = net >= 0 ? '#00DC82' : '#EF4444';
+      document.getElementById('out-net-big').style.color = col;
+      document.getElementById('out-net-sm').style.color  = col;
+
+      // Warning state
+      document.getElementById('calc-warn').classList.toggle('hidden', net >= 0);
+
+      // Slider fills
+      ['inp-sessions','inp-rate','inp-elec'].forEach(id =>
+        fillSlider(document.getElementById(id))
+      );
+    }
+
+    // Initialise
+    updateCalc();
+  </script>
+
+</body>
+</html>
